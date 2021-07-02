@@ -1,9 +1,3 @@
-/* #FormGroup * {
-    border: 2px solid #ffffff;
-    padding: 2px 20px 2px 20px;
-} */
-
 #FormGroup {
     padding: 2px 20px 2px 20px;
-    /* width: 75%; */
 }

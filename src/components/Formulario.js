@@ -28,6 +28,7 @@ const Formulario = ({ externalStateSetter, formularioACargar }) => {
 
     useEffect(() => {
         externalStateSetter(formulario)
+        // eslint-disable-next-line
     }, [formulario])
 
     useEffect(() => {
@@ -45,7 +46,7 @@ const Formulario = ({ externalStateSetter, formularioACargar }) => {
                 descripcion: formularioACargar.descripcion
             },
             imagen: {
-                picturePreview: `https://localhost:44350/api/Instrumentos/image/${formularioACargar.imagen}`,
+                picturePreview: `/api/Instrumentos/image/${formularioACargar.imagen}`,
                 pictureAsFile: null
             }
         })
@@ -63,16 +64,15 @@ const Formulario = ({ externalStateSetter, formularioACargar }) => {
 
     const textChangeHandler = ({ target }) => {
         setformulario({
+            // eslint-disable-next-line
             texto: { ...formulario.texto, [target.name]: (target.type=="number") ? target.valueAsNumber : target.value },
             imagen: { ...formulario.imagen }
         })
 
     }
 
-    // {formularioACargar && const { instrumento, marca, modelo, imagen, precio, costoEnvio, cantidadVendida, descripcion } = formulario.texto}
 
     return (
-
         <div id="FormGroup">
             <Form >
                 <Form.Group as={Row}>
@@ -117,7 +117,7 @@ const Formulario = ({ externalStateSetter, formularioACargar }) => {
                 <Form.Group as={Row} >
                     <Form.Label column md="2">Costo envio</Form.Label>
                     <Col >
-                        <Form.Control type="number" placeholder="0.0" onChange={textChangeHandler} name="costoEnvio" value={formulario.texto.costoEnvio} />
+                        <Form.Control type="text" placeholder="0.0" onChange={textChangeHandler} name="costoEnvio" value={formulario.texto.costoEnvio} />
                     </Col>
                 </Form.Group>
 

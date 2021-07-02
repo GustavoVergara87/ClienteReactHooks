@@ -3,13 +3,7 @@ import React, { useState } from "react";
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router";
-
-
-{/*
-//hay algo con el primer y segundo parametro de la funcion cuando se pasan de esta manera. Ademas
-const  Tarjeta = (imagen,k,instrumento,marca,modelo,precio,costoEnvio,cantidadVendida) => {
-*/
-}
+import '../assets/css/Tarjeta.css';
 
 function Tarjeta({ id, imagen, instrumento, marca, modelo, precio, costoEnvio, cantidadVendida }) {
 
@@ -17,7 +11,7 @@ function Tarjeta({ id, imagen, instrumento, marca, modelo, precio, costoEnvio, c
     const history = useHistory();
 
     async function handleDelete() {
-        const response = await fetch(`https://localhost:44350/api/Instrumentos/${id}`, {
+        const response = await fetch(`/api/Instrumentos/${id}`, {
             method: "DELETE"
         })
         if (!response.ok) {
@@ -31,24 +25,32 @@ function Tarjeta({ id, imagen, instrumento, marca, modelo, precio, costoEnvio, c
         history.push(`/Modificacion/${id}`)
     }
 
-    function handleDetalle(){
+    function handleDetalle() {
         history.push(`/Detalle/${id}`)
     }
 
+    // eslint-disable-next-line
     if (state == "full") {
         return (
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '12rem' }}>
                 <Card.Img variant="top" src={imagen} width="50" />
                 <Card.Body>
                     <Card.Title>{instrumento}</Card.Title>
-                    {marca} <br />
-                    {modelo} <br />
-                    {precio}  <br />
-                    {costoEnvio} <br />
-                    {cantidadVendida} <br />
-                    <Button variant="primary" onClick={handleDetalle}>Detalle</Button>
-                    <Button variant="secondary" onClick={handleEditar}>Editar</Button>
-                    <Button variant="danger" onClick={handleDelete}>Borrar</Button>
+
+                    <p> <span className="marcamodelo">Marca:</span> {marca}</p>
+                    <p> <span className="marcamodelo">Modelo:</span> {modelo}</p>
+                    <p className="precio"> ${Intl.NumberFormat("de-DE").format(precio)}</p>
+
+                    {// eslint-disable-next-line
+                        costoEnvio == "G"
+                            ? <span className="costoEnvioGratis">  <i className="fas fa-truck-moving"></i> Envío gratis a todo el país </span>
+                            : <p className="costoEnvio"> Costo de envío interior de Argentina: ${costoEnvio} </p>
+                    }
+                    <p className="vendidos">{cantidadVendida} vendidos</p>
+
+                    <Button className="boton" variant="primary" onClick={handleDetalle}>Detalle</Button>
+                    <Button className="boton" variant="secondary" onClick={handleEditar}>Editar</Button>
+                    <Button className="boton" variant="danger" onClick={handleDelete}>Borrar</Button>
                 </Card.Body>
             </Card>
         )

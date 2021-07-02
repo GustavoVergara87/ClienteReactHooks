@@ -3,55 +3,35 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Tarjeta from "./Tarjeta";
 import Container from "react-bootstrap/Container";
-import Barra from "./Barra";
+import Spinner from 'react-bootstrap/Spinner'
+
 function Productos() {
 
     let [Instrumentos, setInstrumentos] = useState(null);
 
     useEffect(() => {
-        // fetch('https://localhost:44350/api/Instrumentos')
-        //     .then(response => response.json())
-        //     .then(data => setInstrumentos(data))
-
-
-
-            
-        async function getComida() {
-            const response = await fetch(`https://localhost:44350/api/Articulos`)
-            const instrumento = await response.json()
-            console.log("tuerca")
-            console.log(instrumento)
-        }
-        console.log("tuerca")
-        getComida()
+        fetch('/api/Instrumentos')
+            .then(response => response.json())
+            .then(data => setInstrumentos(data))
     }, []); // [] empty dependency array means this effect will only run once (like componentDidMount in classes)
 
-    {/*
-    Alternativamente
-    useEffect(() => {
-        obtenerDatos()
-    }, []);
-
-    const obtenerDatos = async () => {
-        const url = "https://localhost:44350/api/Instrumentos/"
-        const resp = await fetch(url)
-        const data = await resp.json()
-        setInstrumentos(data)
-    }
-    */
-    }
 
     //si instrumentos es nulo (useEffect se ejecuta luego del render de la pagina) poner cargando o nada
     if (!Instrumentos) {
-        return (<div>cargando</div>)
+        return (
+            <div>
+                <Spinner className="spinner" animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </div>)
     }
 
     const data = Instrumentos.map(ins => {
         return (
-            <Col key={ins.id}  className="mx-auto my-2">
+            <Col key={ins.id} className="mx-auto my-2">
                 <Tarjeta key={ins.id}
                     id={ins.id}
-                    imagen={`https://localhost:44350/api/Instrumentos/image/${ins.imagen}`}
+                    imagen={`/api/Instrumentos/image/${ins.imagen}`}
                     instrumento={ins.instrumento}
                     marca={ins.marca}
                     modelo={ins.modelo}
@@ -68,7 +48,7 @@ function Productos() {
         <div>
             <Container>
                 <Row>
-                {data}
+                    {data}
                 </Row>
             </Container>
         </div>

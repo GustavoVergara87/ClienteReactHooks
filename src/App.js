@@ -1,16 +1,14 @@
 import React from "react";
 import Productos from "./components/Productos";
 import { Switch, Route } from "react-router-dom";
-//import './assets/css/App.css';
 import Alta from "./components/Alta";
 import Modificacion from "./components/Modificacion";
 import DetalleInstrumento from "./components/DetalleInstrumento";
 import DondeEstamos from "./components/DondeEstamos";
 import Home from "./components/Home";
-
+import './assets/css/Generales.css';
 
 class App extends React.Component{
-
 
   render(){
 

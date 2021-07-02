@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import Envio from "./Envio";
 import '../assets/css/DetalleInstrumento.css';
 import Button from "react-bootstrap/Button";
-import { useHistory, useParams } from "react-router";
-
+import { useParams } from "react-router";
+import Spinner from 'react-bootstrap/Spinner'
 
 function DetalleInstrumento() {
 
@@ -14,16 +13,18 @@ function DetalleInstrumento() {
 
     const [instrumentoAMostrar, setInstrumentoAMostrar] = useState(null)
 
-    const history = useHistory()
 
-    useEffect(async () => {
-       setInstrumentoAMostrar(await getInstrumento(id))
+
+    useEffect(() => {
+        async function fetchData() {
+            setInstrumentoAMostrar(await getInstrumento(id))
+        }
+        fetchData()
+        // eslint-disable-next-line
     }, [])
 
-
-
     async function getInstrumento(idInstrumento) {
-        const response = await fetch(`https://localhost:44350/api/Instrumentos/${idInstrumento}`, {
+        const response = await fetch(`/api/Instrumentos/${idInstrumento}`, {
             method: "GET",
         })
         if (!response.ok) {
@@ -35,7 +36,12 @@ function DetalleInstrumento() {
 
 
     if (!instrumentoAMostrar) {
-        return (<div></div>)
+        return (<div >
+            <Spinner className="spinner" animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+        </div>
+        )
     }
 
 
@@ -44,20 +50,27 @@ function DetalleInstrumento() {
             <Container>
                 <Row>
                     <Col align="Center">
-                        <img style={{ height: 210 }} src={`https://localhost:44350/api/Instrumentos/image/${instrumentoAMostrar.imagen}`} alt="" />
+                        <img style={{ height: 210 }} src={`/api/Instrumentos/image/${instrumentoAMostrar.imagen}`} alt="" />
                         <br />
                         <p className="descripcion" >
                             Descripción:<br /><br />{instrumentoAMostrar.descripcion}
                         </p>
                     </Col>
                     <Col className="segundaColumna">
-                        <p className="cantidad_vendidos">{instrumentoAMostrar.cantidadVendida} vendidos</p>
+                        <p className="vendidos">{instrumentoAMostrar.cantidadVendida} vendidos</p>
                         <p className="titulo">{instrumentoAMostrar.instrumento}</p>
                         <p className="precio"> ${Intl.NumberFormat("de-DE").format(instrumentoAMostrar.precio)}</p>
-                        <p className="marcamodelo">Marca: {instrumentoAMostrar.marca}<br />
-                        Modelo: {instrumentoAMostrar.modelo}</p>
-                        <Envio costo_envio={instrumentoAMostrar.costoEnvio} />
-                        <Button href="" variant="outline-success">Agregar al carrito</Button>
+                        <p> <span className="marcamodelo">Marca:</span> {instrumentoAMostrar.marca}</p>
+                        <p> <span className="marcamodelo">Modelo:</span> {instrumentoAMostrar.modelo}</p>
+
+                        {// eslint-disable-next-line
+                            instrumentoAMostrar.costoEnvio == "G"
+                                ? <span className="costoEnvioGratis">  <i className="fas fa-truck-moving"></i> Envío gratis a todo el país </span>
+                                : <p className="costoEnvio"> {instrumentoAMostrar.costoEnvio} </p>
+                        }
+                        <div>
+                            <Button className="botonCarrito" href="" variant="outline-success">Agregar al carrito</Button>
+                        </div>
                     </Col>
                 </Row>
             </Container>

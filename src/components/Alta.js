@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import Button from 'react-bootstrap/Button'
 import Formulario from './Formulario'
-import '../assets/css/Contenedor.css'
+import '../assets/css/Generales.css'
 const Alta = () => {
 
     const [formulario, setformulario] = useState({})
 
+    const history = useHistory()
+
+    async function enviarInstrumento() {
+        const id = await sendText();
+        await sendImage(id);
+        history.push("/")
+    }
+
     async function sendText() {
         delete formulario.texto.id
         console.log(formulario.texto)
-        const response = await fetch('https://localhost:44350/api/Instrumentos', {
+        const response = await fetch('/api/Instrumentos', {
             method: "POST",
             body: JSON.stringify(formulario.texto),
             headers: { 'Content-Type': 'application/json' }
@@ -18,7 +27,7 @@ const Alta = () => {
             console.log('Error al enviar el instrumento')
         }
         const instrumentoNuevo = await response.json()
-        sendImage(instrumentoNuevo.id);//El servidor response con el instrumento recien creado, de alli tomo el id para mandar la imagen
+        return instrumentoNuevo.id //El servidor response con el instrumento recien creado, de alli tomo el id para mandar la imagen
     }
 
 
@@ -29,7 +38,7 @@ const Alta = () => {
 
         formData.append('image', formulario.imagen.pictureAsFile);
 
-        const response = await fetch(`https://localhost:44350/api/Instrumentos/uploadimage/${idNuevo}`, {
+        const response = await fetch(`/api/Instrumentos/uploadimage/${idNuevo}`, {
             method: "POST",
             body: formData
             // headers: { 'Content-Type': 'multipart/form-data' }, //headers debe estar en blanco o si no da un error de missing boundaries
@@ -43,12 +52,12 @@ const Alta = () => {
     }
 
     return (
-        <div id="contenedor">
+        <div className="contenedor">
             <Formulario
                 externalStateSetter={setformulario}
             ></Formulario>
-            <div id="derecha">
-                <Button type="button" onClick={sendText} >Crear</Button>
+            <div className="derecha">
+                <Button type="button" onClick={enviarInstrumento} >Crear</Button>
             </div >
         </div >
     )
