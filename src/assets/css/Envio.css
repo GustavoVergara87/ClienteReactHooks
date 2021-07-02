@@ -1,0 +1,11 @@
+.costo_envio {
+    color: #ee9b00;
+    font-family:"Verdana";
+    font-weight: lighter;
+  }
+
+  .costo_gratis{
+    color: #009e84;
+    font-family:"Verdana";
+    font-weight: lighter;
+  }

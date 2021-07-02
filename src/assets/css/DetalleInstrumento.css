@@ -1,0 +1,45 @@
+.tar {
+    background-color: #ffffff;
+    border: 0px solid #000000;
+   }
+ 
+   .imgCol{
+       align-content: center;
+   }
+ 
+ 
+ .titulo {
+     font-family:"Verdana";
+     font-size: 120%;
+     color: rgb(0, 0, 0);
+   }
+ 
+ 
+ .precio {
+     font-family:"Verdana";
+     font-size: 170%;
+     color: rgb(0, 0, 0);
+   }
+ 
+ 
+ .cantidad_vendidos {
+    color: rgb(0, 0, 0);
+    font-size: 80%;
+ }
+ 
+ .marcamodelo{
+     font-size: 100%;
+ }
+
+ .costo_envio{
+    font-size: 90%;
+}
+
+.descripcion{
+text-align: left;
+font-size: 70%;
+}
+
+.segundaColumna{
+    border-left: 1px solid rgb(216, 216, 216);
+  }
